@@ -22,11 +22,6 @@ function getArgumentsTransformer(propNames) {
       return acc;
     }, {});
 
-    // if for some reason we missed some props add those to `other` property
-    if (propNames.length < args.length) {
-      result.other = args.slice(propNames.length);
-    }
-
     return result;
   };
 }
