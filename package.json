@@ -1,5 +1,5 @@
 {
-  "name": "node-red-eufy-security",
+  "name": "node-red-contrib-eufy-security",
   "version": "0.0.1",
   "description": "Eufy security node for Node RED",
   "author": "Marius Bieliauskas",
