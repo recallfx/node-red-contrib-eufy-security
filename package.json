@@ -1,0 +1,32 @@
+{
+  "name": "node-red-eufy-security",
+  "version": "0.0.1",
+  "description": "Eufy security node for Node RED",
+  "author": "Marius Bieliauskas",
+  "license": "MIT",
+  "keywords": [
+    "node-red",
+    "eufy",
+    "security"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recallfx/node-red-contrib-eufy-security.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "node-red": {
+    "nodes": {
+      "eufy-security": "eufy-security/01-eufy-security.js"
+    }
+  },
+  "dependencies": {
+    "eufy-security-client": "^1.1.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "node-red": "^2.0.5",
+    "node-red-node-test-helper": "^0.2.7"
+  }
+}

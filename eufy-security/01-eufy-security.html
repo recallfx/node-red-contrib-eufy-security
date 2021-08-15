@@ -1,0 +1,209 @@
+<script type="text/html" data-template-name="eufy-config">
+  <div class="form-row">
+    <label for="node-config-input-username"><i class="fa fa-tag"></i> Username</label>
+    <input type="text" id="node-config-input-username">
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-password"><i class="fa fa-tag"></i> Password</label>
+    <input type="password" id="node-config-input-password">
+</div>
+
+<div class="form-row">
+    <label for="node-config-input-trustedDeviceName"><i class="fa fa-tag"></i> Trusted device name</label>
+    <input type="text" id="node-config-input-trustedDeviceName" placeholder="eufyclient">
+  </div>
+
+  <div class="form-row">
+      <label for="node-config-input-country"><i class="fa fa-flag"></i> Country</label>
+      <input type="text" id="node-config-input-country" placeholder="US">
+  </div>
+
+  <div class="form-row">
+    <label for="node-config-input-language"><i class="fa fa-globe"></i> Language</label>
+    <input type="text" id="node-config-input-language" placeholder="en">
+</div>
+
+<div class="form-row">
+  <label for="node-config-input-eventDurationSeconds">Event duration seconds</label>
+  <input type="number" id="node-config-input-eventDurationSeconds" placeholder="10">
+</div>
+
+<div class="form-row">
+  <label for="node-config-input-p2pConnectionSetup"> P2P Connection setup</label>
+  <select id="node-config-input-p2pConnectionSetup">
+      <option value="0" selected>Prefer local</option>
+      <option value="1">Only local</option>
+      <option value="2">Quickest</option>
+  </select>
+</div>
+
+<div class="form-row">
+  <label for="node-config-input-pollingIntervalMinutes">Polling interval minutes</label>
+  <input type="number" id="node-config-input-pollingIntervalMinutes" placeholder="10">
+</div>
+
+<div class="form-row">
+  <label for="node-config-input-acceptInvitations">Accept invitations</label>
+  <select id="node-config-input-acceptInvitations">
+    <option value="true">True</option>
+    <option value="false" selected>False</option>
+  </select>
+</div>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('eufy-config', {
+    category: 'config',
+    credentials: {
+      username: { type: "text" },
+      password: { type: "password" }
+    },
+    defaults: {
+      trustedDeviceName: { value: 'eufyclient' },
+      country: { value: "US" },
+      language: { value: "en" },
+      eventDurationSeconds: { value: 10 },
+      p2pConnectionSetup: { value: "0" },
+      pollingIntervalMinutes: { value: 10 },
+      acceptInvitations: { value: "false" },
+    },
+    label: function () {
+      return this.trustedDeviceName;
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="eufy-security">
+    <div class="form-row">
+      <label for="node-input-eufyConfig"><i class="fa fa-signal-stream"></i> Eufy config</label>
+      <input type="text" id="node-input-eufyConfig">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+      <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-events"><i class="fa fa-tasks"></i> Events<br/>(multiselected)</label>
+      <select id="node-input-events" name="events" multiple size="4" style="width: 70%; height: 200px">
+        <optgroup label="Primary events">
+          <option value="push message">Push message</option>
+          <option value="station command result">Station command result</option>
+          <option value="station alarm event">Station alarm event</option>
+        </optgroup>
+
+        <optgroup label="Push events">
+          <option value="push connect">Push connect</option>
+          <option value="push close">Push close</option>
+        </optgroup>
+
+        <optgroup label="Station events">
+          <option value="station added">Station added</option>
+          <option value="station removed">Station removed</option>
+          <option value="station livestream start">Station livestream start</option>
+          <option value="station livestream stop">Station livestream stop</option>
+          <option value="station download start">Station download start</option>
+          <option value="station download finish">Station download finish</option>
+          <option value="station rtsp url">Station rtsp url</option>
+          <option value="station guard mode">Station guard mode</option>
+          <option value="station current mode">Station current mode</option>
+          <option value="station property changed">Station property changed</option>
+          <option value="station raw property changed">Station raw property changed</option>
+        </optgroup>
+
+        <optgroup label="Device events">
+          <option value="device added">Device added</option>
+          <option value="device removed">Device removed</option>
+          <option value="device connect">Device connect</option>
+          <option value="device close">Device close</option>
+          <option value="device property changed">Device property changed</option>
+          <option value="device raw property changed">Device raw property changed</option>
+          <option value="device rings">Device rings</option>
+          <option value="device locked">Device locked</option>
+          <option value="device open">Device open</option>
+        </optgroup>
+
+        <optgroup label="Device detection events">
+          <option value="device crying detected">Device crying detected</option>
+          <option value="device sound detected">Device sound detected</option>
+          <option value="device pet detected">Device pet detected</option>
+          <option value="device motion detected">Device motion detected</option>
+          <option value="device person detected">Device person detected</option>
+        </optgroup>
+
+        <optgroup label="Cloud events">
+          <option value="cloud livestream start">Cloud livestream start</option>
+          <option value="cloud livestream stop">Cloud livestream stop</option>  
+        </optgroup>
+
+        <optgroup label="Other events">
+          <option value="connect">Connect</option>
+          <option value="close">Close</option>
+          <option value="tfa request">TFA request</option>
+        </optgroup>
+      </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="eufy-security">
+    <p>Eufy security node.</p>
+    <p>Outputs events in an object called <b>msg</b> containing <b>msg.topic</b> and
+        <b>msg.payload</b>. msg.payload is an Object containing data from Eufy security devices.
+    </p>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('eufy-security', {
+    category: 'network',
+    defaults: {
+      eufyConfig: {
+        type: "eufy-config",
+        required: true
+      },
+      name: {
+        value: ""
+      },
+      topic: {
+        value: ""
+      },
+      events: {
+        value: [
+          "push connect",
+          "push close",
+          "push message",
+          "connect",
+          "close",
+          "tfa request",
+          "station command result",
+          "station rtsp url",
+          "station guard mode",
+          "station current mode",
+          "station property changed",
+          "station alarm event",
+          "device property changed",
+          "device motion detected",
+          "device person detected",
+        ],
+      },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "bridge.svg",
+    color: "#3FADB5",
+    label: function () {
+      const eufyConfigNode = RED.nodes.node(this.eufyConfig);
+      return this.name || (eufyConfigNode ? eufyConfigNode.label() : "[eufy-config]");
+    },
+    labelStyle: function () {
+      const eufyConfigNode = RED.nodes.node(this.eufyConfig);
+      return this.name || eufyConfigNode ?  "node_label_italic" : "";
+    }
+  });
+</script>
