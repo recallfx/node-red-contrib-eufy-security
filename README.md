@@ -1,6 +1,44 @@
 # node-red-contrib-eufy-security
 
-Note: I have only tested for my very basic use case, mainly to get notified about motion event in camera, thus should be considered as WIP.
+Note: not all events and command have been tested, check list below.
+
+Tested events:
+* connect
+* close
+* push connect
+* push close
+* push message
+* device added
+* station added
+* station command result
+* station guard mode
+* station current mode
+* station property changed
+* station raw property changed
+* device property changed
+* device raw property changed
+
+Tested commands:
+* connect
+* close
+* get config
+* get version
+* is push connected
+* is connected
+* refresh data
+* get stations
+* get devices
+* get camera max livestream duration
+
+Tested commands with props:
+* is station connected (stationSN)
+* get station (stationSN)
+* get device (deviceSN)
+* connect to station (stationSN)
+* set camera max livestream duration (seconds)
+
+Not tested commands:
+* get station device (stationSN, channel)
 
 ## Description
 
@@ -21,7 +59,21 @@ Run the following command in the root directory of your Node-RED install
 3. (optional) Select events to track;
 4. Deploy flow;
 5. If all configured correctly you should see `Connected` under the node;
-6. This node will send events as objects to output: `{ payload: { event: 'event name', data: {} }}`
+6. This node will send events as objects to output:
+
+```
+{
+  pyload: {
+    event,
+    station,
+    device,
+    result,
+    currentMode,
+    command,
+    error,
+  }
+}
+```
 
 Suported events:
 * connect
