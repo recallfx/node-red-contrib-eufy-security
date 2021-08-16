@@ -1,114 +1,560 @@
+
 [
   {
-    "id": "049542b9958f9847",
-    "type": "tab",
-    "label": "Eufy Security Basic",
-    "disabled": false,
-    "info": ""
+      "id": "049542b9958f9847",
+      "type": "tab",
+      "label": "Basic Flow",
+      "disabled": false,
+      "info": ""
   },
   {
-    "id": "609ac94b283c9b79",
-    "type": "inject",
-    "z": "049542b9958f9847",
-    "name": "",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": false,
-    "onceDelay": 0.1,
-    "topic": "",
-    "payload": "{\"command\":\"close\"}",
-    "payloadType": "json",
-    "x": 240,
-    "y": 260,
-    "wires": [
-      [
-        "64822d202285c6a6"
+      "id": "609ac94b283c9b79",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "close",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"close\"}",
+      "payloadType": "json",
+      "x": 110,
+      "y": 60,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
       ]
-    ]
   },
   {
-    "id": "4641b8142900dfe6",
-    "type": "debug",
-    "z": "049542b9958f9847",
-    "name": "",
-    "active": true,
-    "tosidebar": true,
-    "console": false,
-    "tostatus": false,
-    "complete": "payload",
-    "targetType": "msg",
-    "statusVal": "",
-    "statusType": "auto",
-    "x": 650,
-    "y": 300,
-    "wires": []
+      "id": "4641b8142900dfe6",
+      "type": "debug",
+      "z": "049542b9958f9847",
+      "name": "",
+      "active": true,
+      "tosidebar": true,
+      "console": false,
+      "tostatus": false,
+      "complete": "payload",
+      "targetType": "msg",
+      "statusVal": "",
+      "statusType": "auto",
+      "x": 650,
+      "y": 300,
+      "wires": []
   },
   {
-    "id": "64822d202285c6a6",
-    "type": "eufy-security",
-    "z": "049542b9958f9847",
-    "eufyConfig": "e0d916f75ab53065",
-    "name": "",
-    "topic": "",
-    "events": [
-      "connect",
-      "close"
-    ],
-    "x": 450,
-    "y": 300,
-    "wires": [
-      [
-        "4641b8142900dfe6"
+      "id": "64822d202285c6a6",
+      "type": "eufy-security",
+      "z": "049542b9958f9847",
+      "eufyConfig": "e0d916f75ab53065",
+      "name": "",
+      "topic": "",
+      "events": [
+          "push message",
+          "station command result",
+          "station alarm event",
+          "push connect",
+          "push close",
+          "station added",
+          "station removed",
+          "station livestream start",
+          "station livestream stop",
+          "station download start",
+          "station download finish",
+          "station rtsp url",
+          "station guard mode",
+          "station current mode",
+          "device added",
+          "device removed",
+          "device connect",
+          "device close",
+          "device rings",
+          "device locked",
+          "device open",
+          "device crying detected",
+          "device sound detected",
+          "device pet detected",
+          "device motion detected",
+          "device person detected",
+          "cloud livestream start",
+          "cloud livestream stop",
+          "connect",
+          "close",
+          "tfa request"
+      ],
+      "x": 450,
+      "y": 300,
+      "wires": [
+          [
+              "4641b8142900dfe6"
+          ]
       ]
-    ]
   },
   {
-    "id": "b83162be2f521eb8",
-    "type": "inject",
-    "z": "049542b9958f9847",
-    "name": "",
-    "props": [
-      {
-        "p": "payload"
-      },
-      {
-        "p": "topic",
-        "vt": "str"
-      }
-    ],
-    "repeat": "",
-    "crontab": "",
-    "once": false,
-    "onceDelay": 0.1,
-    "topic": "",
-    "payload": "{\"command\":\"connect\"}",
-    "payloadType": "json",
-    "x": 230,
-    "y": 340,
-    "wires": [
-      [
-        "64822d202285c6a6"
+      "id": "b83162be2f521eb8",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "connect",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"connect\"}",
+      "payloadType": "json",
+      "x": 120,
+      "y": 100,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
       ]
-    ]
   },
   {
-    "id": "e0d916f75ab53065",
-    "type": "eufy-config",
-    "trustedDeviceName": "eufyclient",
-    "country": "US",
-    "language": "en",
-    "eventDurationSeconds": "10",
-    "p2pConnectionSetup": "0",
-    "pollingIntervalMinutes": "10",
-    "acceptInvitations": "false"
+      "id": "6c65fc0667531193",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get config",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get config\"}",
+      "payloadType": "json",
+      "x": 120,
+      "y": 140,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "66e37a32e2d3b674",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get version",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get version\"}",
+      "payloadType": "json",
+      "x": 120,
+      "y": 180,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "9a7d61b384ddfe2d",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "is push connected",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"is push connected\"}",
+      "payloadType": "json",
+      "x": 150,
+      "y": 220,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "9794c3b1d87eb0c5",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "is connected",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"is connected\"}",
+      "payloadType": "json",
+      "x": 130,
+      "y": 260,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "4f9c4dcf81fde8a1",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "refresh data",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"refresh data\"}",
+      "payloadType": "json",
+      "x": 130,
+      "y": 300,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "0513e29db1d860c2",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "is station connected",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"is station connected\",\"stationSN\":\"use your SN\"}",
+      "payloadType": "json",
+      "x": 150,
+      "y": 440,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "7e0b6f72b46c23e3",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get stations",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get stations\"}",
+      "payloadType": "json",
+      "x": 130,
+      "y": 340,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "c5fb960dc6bfc52b",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get devices",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get devices\"}",
+      "payloadType": "json",
+      "x": 130,
+      "y": 380,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "0caba77c0901c554",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get station",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get station\",\"stationSN\":\"use your SN\"}",
+      "payloadType": "json",
+      "x": 120,
+      "y": 480,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "c2107a6c9d147ac8",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get device",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get device\",\"deviceSN\":\"use your SN\"}",
+      "payloadType": "json",
+      "x": 120,
+      "y": 520,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "417131bf1a37866f",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get station device",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get station device\",\"stationSN\":\"use your SN\",\"channel\":255}",
+      "payloadType": "json",
+      "x": 150,
+      "y": 560,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "306432d27adce7d8",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "connect to station",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"connect to station\",\"stationSN\":\"use your SN\"}",
+      "payloadType": "json",
+      "x": 150,
+      "y": 600,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "775fe5535f192f53",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "set camera max livestream duration",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"set camera max livestream duration\",\"seconds\":30}",
+      "payloadType": "json",
+      "x": 200,
+      "y": 640,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "cc15b44d213ca162",
+      "type": "inject",
+      "z": "049542b9958f9847",
+      "name": "get camera max livestream duration",
+      "props": [
+          {
+              "p": "payload"
+          },
+          {
+              "p": "topic",
+              "vt": "str"
+          }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "{\"command\":\"get camera max livestream duration\"}",
+      "payloadType": "json",
+      "x": 200,
+      "y": 680,
+      "wires": [
+          [
+              "64822d202285c6a6"
+          ]
+      ]
+  },
+  {
+      "id": "05a6cc45166be7cd",
+      "type": "comment",
+      "z": "049542b9958f9847",
+      "name": "Change stationSN and deviceSN",
+      "info": "Change stationSN and deviceSN to match your local device serial numbers.",
+      "x": 510,
+      "y": 440,
+      "wires": []
+  },
+  {
+      "id": "e0d916f75ab53065",
+      "type": "eufy-config",
+      "trustedDeviceName": "eufyclient",
+      "country": "US",
+      "language": "en",
+      "eventDurationSeconds": "10",
+      "p2pConnectionSetup": "0",
+      "pollingIntervalMinutes": "10",
+      "acceptInvitations": "false"
   }
 ]
