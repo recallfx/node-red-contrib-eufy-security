@@ -2,8 +2,7 @@ const { promisify } = require("util");
 
 const helper = require("node-red-node-test-helper");
 const eufySecurityNode = require("../01-eufy-security.js");
-const commands = require("../commands");
-const { EVENT_COMMAND_RESULT } = require("../utils");
+const { EVENT_COMMAND_RESULT, EUFY_SECURITY_COMMANDS } = require("../constants");
 
 const mockSecurityClient = {
   // sync
@@ -222,21 +221,21 @@ describe("01-eufy-security.js", () => {
 
           n1.receive({
             payload: {
-              command: commands.CLOSE,
+              command: EUFY_SECURITY_COMMANDS.IS_CONNECTED,
             },
           });
 
           const msg = await inputPromise;
           expect(msg).toMatchObject({
             payload: {
-              command: commands.CLOSE,
+              command: EUFY_SECURITY_COMMANDS.IS_CONNECTED,
               event: EVENT_COMMAND_RESULT,
-              result: undefined,
+              result: false,
             },
             topic: node.topic,
           });
 
-          expect(mockSecurityClient.close).toHaveBeenCalled();
+          expect(mockSecurityClient.isConnected).toHaveBeenCalled();
         });
       });
     });

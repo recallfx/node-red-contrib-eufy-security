@@ -37,7 +37,6 @@ const events = [
     event: 'device removed',
     args: ['device'],
   },
-
   {
     event: 'device connect',
     args: ['station'],

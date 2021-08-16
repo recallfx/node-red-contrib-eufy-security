@@ -1,4 +1,5 @@
-module.exports = {
+const EVENT_COMMAND_RESULT = "command result";
+const EUFY_SECURITY_COMMANDS = {
   SET_STATION_PROPERTY: 'set station property',
   SET_DEVICE_PROPERTY: 'set device property',
   GET_CONFIG: 'get config',
@@ -17,4 +18,9 @@ module.exports = {
   GET_STATION_DEVICE: 'get station device',
   GET_DEVICE: 'get device',
   GET_DEVICES: 'get devices',
+};
+
+module.exports = {
+  EVENT_COMMAND_RESULT,
+  EUFY_SECURITY_COMMANDS,
 };

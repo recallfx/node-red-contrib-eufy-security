@@ -3,8 +3,11 @@ module.exports = function (RED) {
   // require any external libraries we may need....
   const { EufySecurity, PropertyName } = require("eufy-security-client");
   const eventsDefinition = require("./events");
-  const commands = require("./commands");
-  const { safeStringify, EVENT_COMMAND_RESULT } = require("./utils");
+  const { transformProperties } = require("./utils");
+  const {
+    EVENT_COMMAND_RESULT,
+    EUFY_SECURITY_COMMANDS,
+  } = require("./constants");
 
   class EufyConfigNode {
     constructor(config) {
@@ -50,7 +53,7 @@ module.exports = function (RED) {
       // Store local copies of the node configuration (as defined in the .html)
       this.topic = config.topic;
       this.events = config.events || [];
-      this.eufyConfigNodeId = config.eufyConfig
+      this.eufyConfigNodeId = config.eufyConfig;
       this.initialised = false;
       this.status({});
 
@@ -90,10 +93,11 @@ module.exports = function (RED) {
       eventsDefinition
         .filter((item) => this.events.includes(item.event))
         .forEach((item) => {
-        this.driver.on(item.event, (...payload) => {
-          this.sendPayload(item.event, item.handler(payload));
+          this.driver.on(item.event, (...payload) => {
+            // very important to pass payload as spread to hanler
+            this.sendPayload(item.event, item.handler(...payload));
+          });
         });
-      });
 
       this.status({ fill: "grey", shape: "dot", text: "Initialised" });
 
@@ -132,79 +136,79 @@ module.exports = function (RED) {
       if (this.initialised) {
         try {
           switch (command) {
-            case commands.SET_STATION_PROPERTY:
+            case EUFY_SECURITY_COMMANDS.SET_STATION_PROPERTY:
               await this._setStationProperty(stationSN, name, value);
               break;
-            case commands.SET_DEVICE_PROPERTY:
+            case EUFY_SECURITY_COMMANDS.SET_DEVICE_PROPERTY:
               await this._setDeviceProperty(deviceSN, name, value);
               break;
-            case commands.GET_CONFIG:
+            case EUFY_SECURITY_COMMANDS.GET_CONFIG:
               this.sendCommandResult(command, this._getConfig());
               break;
-            case commands.GET_VERSION:
+            case EUFY_SECURITY_COMMANDS.GET_VERSION:
               this.sendCommandResult(command, this.driver.getVersion());
               break;
-            case commands.IS_PUSH_CONNCETED:
+            case EUFY_SECURITY_COMMANDS.IS_PUSH_CONNCETED:
               this.sendCommandResult(command, this.driver.isPushConnected());
               break;
-            case commands.IS_CONNECTED:
+            case EUFY_SECURITY_COMMANDS.IS_CONNECTED:
               this.sendCommandResult(command, this.driver.isConnected());
               break;
-            case commands.CONNECT:
+            case EUFY_SECURITY_COMMANDS.CONNECT:
               this.sendCommandResult(
                 command,
                 await this.driver.connect(verifyCode)
               );
               break;
-            case commands.CLOSE:
+            case EUFY_SECURITY_COMMANDS.CLOSE:
               this.sendCommandResult(command, this.driver.close());
               break;
-            case commands.SET_CAMERA_MAX_LIVESTREAM_DURATION:
+            case EUFY_SECURITY_COMMANDS.SET_CAMERA_MAX_LIVESTREAM_DURATION:
               this.sendCommandResult(
                 command,
                 this.driver.setCameraMaxLivestreamDuration(seconds)
               );
               break;
-            case commands.GET_CAMERA_MAX_LIVESTREAM_DURATION:
+            case EUFY_SECURITY_COMMANDS.GET_CAMERA_MAX_LIVESTREAM_DURATION:
               this.sendCommandResult(
                 command,
                 this.driver.getCameraMaxLivestreamDuration()
               );
               break;
-            case commands.REFRESH_DATA:
+            case EUFY_SECURITY_COMMANDS.REFRESH_DATA:
               this.sendCommandResult(command, await this.driver.refreshData());
               break;
-            case commands.IS_STATION_CONNECTED:
+            case EUFY_SECURITY_COMMANDS.IS_STATION_CONNECTED:
               this.sendCommandResult(
                 command,
                 this.driver.isStationConnected(stationSN)
               );
               break;
-            case commands.CONNCET_TO_STATION:
+            case EUFY_SECURITY_COMMANDS.CONNCET_TO_STATION:
               this.sendCommandResult(
                 command,
                 await this.driver.connectToStation(stationSN, p2pConnectionType)
               );
               break;
-            case commands.GET_STATION:
+            case EUFY_SECURITY_COMMANDS.GET_STATION:
               this.sendCommandResult(
                 command,
                 this.driver.getStation(stationSN)
               );
               break;
-            case commands.GET_STATIONS:
+            case EUFY_SECURITY_COMMANDS.GET_STATIONS:
               this.sendCommandResult(command, this.driver.getStations());
               break;
-            case commands.GET_STATION_DEVICE:
+            case EUFY_SECURITY_COMMANDS.GET_STATION_DEVICE:
               this.sendCommandResult(
                 command,
                 this.driver.getStationDevice(stationSN, channel)
               );
               break;
-            case commands.GET_DEVICE:
+            case EUFY_SECURITY_COMMANDS.GET_DEVICE:
               this.sendCommandResult(command, this.driver.getDevice(deviceSN));
               break;
-            case commands.GET_DEVICES:
+            case EUFY_SECURITY_COMMANDS.GET_DEVICES:
               this.sendCommandResult(command, this.driver.getDevices());
               break;
             default:
@@ -248,20 +252,37 @@ module.exports = function (RED) {
         topic: this.topic,
         payload: {
           event,
-          data,
+          ...data,
         },
       });
     }
 
     sendCommandResult(command, result) {
-      this.send({
-        topic: this.topic,
-        payload: {
-          event: EVENT_COMMAND_RESULT,
-          command,
-          result,
-        },
-      });
+      let transformedResult = result;
+
+      if (result && result.properties) {
+        transformedResult = transformProperties(result.properties);
+      } else if (Array.isArray(result)) {
+        transformedResult = result.map((item) => {
+          if (item.properties) {
+            return transformProperties(item.properties);
+          }
+
+          return item;
+        });
+      }
+
+      // send only meaningfull command result
+      if (transformedResult !== undefined) {
+        this.send({
+          topic: this.topic,
+          payload: {
+            event: EVENT_COMMAND_RESULT,
+            command,
+            result: transformedResult,
+          },
+        });
+      }
     }
 
     sendCommandErrorResult(command, error) {

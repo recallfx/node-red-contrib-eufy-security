@@ -1,8 +1,8 @@
-const { safeStringify, getArgumentsTransformer } = require('../utils');
+const { safeStringify, getArgumentsTransformer } = require("../utils");
 
 describe("utils.js", () => {
   it("safely stringifies circular object", () => {
-    const obj = { foo: 'bar' };
+    const obj = { foo: "bar" };
     obj.obj = obj;
 
     expect(() => {
@@ -18,17 +18,45 @@ describe("utils.js", () => {
   });
 
   it("transforms arguments into properties", () => {
-    const argumentsTransformer = getArgumentsTransformer(['a', 'b', 'c']);
+    const argumentsTransformer = getArgumentsTransformer([
+      "station",
+      "device",
+      "a",
+      "b",
+      "c",
+    ]);
 
-    expect(typeof argumentsTransformer === 'function').toBeTruthy();
+    expect(typeof argumentsTransformer === "function").toBeTruthy();
 
-    const transformedObject = argumentsTransformer('a', 'b', 'c', 'd');
+    const station = {
+      properties: {
+        someProperty: {
+          timestamp: 123456,
+          value: "station value",
+        },
+      },
+    };
+    const device = {
+      properties: {
+        someProperty: {
+          timestamp: 123456,
+          value: "device value",
+        },
+      },
+    };
+    const transformedObject = argumentsTransformer(station, device, "a", "b", "c", "d");
 
     expect(transformedObject).toMatchObject({
-      a: 'a',
-      b: 'b',
-      c: 'c',
-      other: ['d'],
+      station: {
+        someProperty: 'station value',
+      },
+      device: {
+        someProperty: 'device value',
+      },
+      a: "a",
+      b: "b",
+      c: "c",
+      other: ["d"],
     });
   });
 });
