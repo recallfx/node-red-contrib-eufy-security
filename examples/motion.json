@@ -1,0 +1,173 @@
+[
+    {
+        "id": "be88eca5ddf69c85",
+        "type": "tab",
+        "label": "Motion detect Flow",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "cb3c158c381d472e",
+        "type": "eufy-security",
+        "z": "be88eca5ddf69c85",
+        "eufyConfig": "1872469c061c49b3",
+        "name": "",
+        "topic": "",
+        "events": [
+            "device motion detected",
+            "close"
+        ],
+        "x": 450,
+        "y": 300,
+        "wires": [
+            [
+                "46340d50ba9a7cef"
+            ]
+        ]
+    },
+    {
+        "id": "46340d50ba9a7cef",
+        "type": "switch",
+        "z": "be88eca5ddf69c85",
+        "name": "",
+        "property": "payload.event",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "close",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "detected",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "alarm",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "dd9e2893b1afae9e"
+            ],
+            [
+                "fb96fa3072ee7ceb"
+            ],
+            [
+                "9b60700b2f57ef13"
+            ]
+        ],
+        "inputLabels": [
+            "event"
+        ],
+        "outputLabels": [
+            "close",
+            "motion",
+            null
+        ]
+    },
+    {
+        "id": "dd9e2893b1afae9e",
+        "type": "delay",
+        "z": "be88eca5ddf69c85",
+        "name": "delay",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "x": 750,
+        "y": 240,
+        "wires": [
+            [
+                "0d6cd0f79f65696b"
+            ]
+        ]
+    },
+    {
+        "id": "0d6cd0f79f65696b",
+        "type": "change",
+        "z": "be88eca5ddf69c85",
+        "name": "connect",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"connect\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 240,
+        "wires": [
+            [
+                "cb3c158c381d472e"
+            ]
+        ]
+    },
+    {
+        "id": "fb96fa3072ee7ceb",
+        "type": "debug",
+        "z": "be88eca5ddf69c85",
+        "name": "motion",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "9b60700b2f57ef13",
+        "type": "debug",
+        "z": "be88eca5ddf69c85",
+        "name": "alarm",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "1872469c061c49b3",
+        "type": "eufy-config",
+        "trustedDeviceName": "eufyclient",
+        "country": "US",
+        "language": "en",
+        "eventDurationSeconds": "10",
+        "p2pConnectionSetup": "1",
+        "pollingIntervalMinutes": "1",
+        "acceptInvitations": "false"
+    }
+]
