@@ -148,7 +148,7 @@ module.exports = function (RED) {
             case EUFY_SECURITY_COMMANDS.GET_VERSION:
               this.sendCommandResult(command, this.driver.getVersion());
               break;
-            case EUFY_SECURITY_COMMANDS.IS_PUSH_CONNCETED:
+            case EUFY_SECURITY_COMMANDS.IS_PUSH_CONNECTED:
               this.sendCommandResult(command, this.driver.isPushConnected());
               break;
             case EUFY_SECURITY_COMMANDS.IS_CONNECTED:
@@ -176,7 +176,8 @@ module.exports = function (RED) {
               );
               break;
             case EUFY_SECURITY_COMMANDS.REFRESH_DATA:
-              this.sendCommandResult(command, await this.driver.refreshData());
+            case EUFY_SECURITY_COMMANDS.REFRESH_CLOUD__DATA:
+              this.sendCommandResult(command, await this.driver.refreshCloudData());
               break;
             case EUFY_SECURITY_COMMANDS.IS_STATION_CONNECTED:
               this.sendCommandResult(
@@ -184,7 +185,7 @@ module.exports = function (RED) {
                 this.driver.isStationConnected(stationSN)
               );
               break;
-            case EUFY_SECURITY_COMMANDS.CONNCET_TO_STATION:
+            case EUFY_SECURITY_COMMANDS.CONNECT_TO_STATION:
               this.sendCommandResult(
                 command,
                 await this.driver.connectToStation(stationSN, p2pConnectionType)
