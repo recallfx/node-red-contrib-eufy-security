@@ -6,7 +6,7 @@ describe("utils.js", () => {
     obj.obj = obj;
 
     expect(() => {
-      JSON.stringify(obj);
+      return JSON.stringify(obj);
     }).toThrow();
 
     expect(() => {
