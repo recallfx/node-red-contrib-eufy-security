@@ -23,7 +23,7 @@ const mockSecurityClient = {
 
   // async
   connect: jest.fn().mockResolvedValue(true),
-  refreshData: jest.fn().mockResolvedValue(),
+  refreshCloudData: jest.fn().mockResolvedValue(),
   connectToStation: jest.fn().mockResolvedValue(),
   setStationProperty: jest.fn().mockResolvedValue(),
   setDeviceProperty: jest.fn().mockResolvedValue(),

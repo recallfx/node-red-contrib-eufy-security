@@ -1,6 +1,5 @@
 module.exports = function (RED) {
   "use strict";
-  // require any external libraries we may need....
   const { EufySecurity, PropertyName } = require("eufy-security-client");
   const eventsDefinition = require("./events");
   const { transformProperties } = require("./utils");
@@ -11,7 +10,7 @@ module.exports = function (RED) {
 
 
 /**
- *  @typedef {Object} StationIPAddresses
+ * @typedef {Object} StationIPAddresses
  * @property {string} [index: string]
 
  * @typedef {Object} EufySecurityConfig
@@ -27,6 +26,7 @@ module.exports = function (RED) {
  * @property {boolean?} acceptInvitations 
  * @property {StationIPAddresses?} stationIPAddresses 
  */
+
   class EufyConfigNode {
     constructor(config) {
       RED.nodes.createNode(this, config);
@@ -45,7 +45,7 @@ module.exports = function (RED) {
       };
 
       const missingCredentials = ["username", "password"].filter(
-        (property) => !this.credentials || !this.credentials[property]
+        (property) => !this.credentials?.[property]
       );
 
       if (missingCredentials.length > 0) {
@@ -115,7 +115,7 @@ module.exports = function (RED) {
         .filter((item) => this.events.includes(item.event))
         .forEach((item) => {
           this.driver.on(item.event, (...payload) => {
-            // very important to pass payload as spread to hanler
+            // very important to pass payload as spread to handler
             this.sendPayload(item.event, item.handler(...payload));
           });
         });
@@ -203,7 +203,7 @@ module.exports = function (RED) {
             case EUFY_SECURITY_COMMANDS.IS_STATION_CONNECTED:
               this.sendCommandResult(
                 command,
-                this.driver.isStationConnected(stationSN)
+                await this.driver.isStationConnected(stationSN)
               );
               break;
             case EUFY_SECURITY_COMMANDS.CONNECT_TO_STATION:
@@ -219,19 +219,19 @@ module.exports = function (RED) {
               );
               break;
             case EUFY_SECURITY_COMMANDS.GET_STATIONS:
-              this.sendCommandResult(command, this.driver.getStations());
+              this.sendCommandResult(command, await this.driver.getStations());
               break;
             case EUFY_SECURITY_COMMANDS.GET_STATION_DEVICE:
               this.sendCommandResult(
                 command,
-                this.driver.getStationDevice(stationSN, channel)
+                await this.driver.getStationDevice(stationSN, channel)
               );
               break;
             case EUFY_SECURITY_COMMANDS.GET_DEVICE:
-              this.sendCommandResult(command, this.driver.getDevice(deviceSN));
+              this.sendCommandResult(command, await this.driver.getDevice(deviceSN));
               break;
             case EUFY_SECURITY_COMMANDS.GET_DEVICES:
-              this.sendCommandResult(command, this.driver.getDevices());
+              this.sendCommandResult(command, await this.driver.getDevices());
               break;
             default:
               throw new Error("Unknown command");
@@ -294,7 +294,7 @@ module.exports = function (RED) {
         });
       }
 
-      // send only meaningfull command result
+      // send only meaningful command result
       if (transformedResult !== undefined) {
         this.send({
           topic: this.topic,
