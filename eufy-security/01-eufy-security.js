@@ -9,20 +9,39 @@ module.exports = function (RED) {
     EUFY_SECURITY_COMMANDS,
   } = require("./constants");
 
+
+/**
+ *  @typedef {Object} StationIPAddresses
+ * @property {string} [index: string]
+
+ * @typedef {Object} EufySecurityConfig
+ * @property {string} username 
+ * @property {string} password 
+ * @property {string?} country 
+ * @property {string?} language 
+ * @property {string?} trustedDeviceName 
+ * @property {string?} persistentDir 
+ * @property {number} p2pConnectionSetup 
+ * @property {number} pollingIntervalMinutes 
+ * @property {number} eventDurationSeconds 
+ * @property {boolean?} acceptInvitations 
+ * @property {StationIPAddresses?} stationIPAddresses 
+ */
   class EufyConfigNode {
     constructor(config) {
       RED.nodes.createNode(this, config);
 
+      /** @type {EufySecurityConfig} */
       this.connectionConfig = {
+        username: this.credentials?.username,
+        password: this.credentials?.password,
         country: config.country,
         language: config.language,
         trustedDeviceName: config.trustedDeviceName,
-        eventDurationSeconds: Number(config.eventDurationSeconds),
         p2pConnectionSetup: Number(config.p2pConnectionSetup),
         pollingIntervalMinutes: Number(config.pollingIntervalMinutes),
+        eventDurationSeconds: Number(config.eventDurationSeconds),
         acceptInvitations: config.acceptInvitations === "true",
-        username: this.credentials?.username,
-        password: this.credentials?.password,
       };
 
       const missingCredentials = ["username", "password"].filter(
@@ -34,6 +53,7 @@ module.exports = function (RED) {
       }
     }
 
+    /** @returns {EufySecurityConfig} */
     getConfig() {
       return this.connectionConfig;
     }
@@ -75,6 +95,7 @@ module.exports = function (RED) {
       this.status({ fill: "grey", shape: "dot", text: "Initialising" });
 
       const eufyConfigNode = RED.nodes.getNode(this.eufyConfigNodeId);
+      /** @type {EufySecurityConfig} */
       const driverConnectionConfig = eufyConfigNode.getConfig();
 
       /** @type {EufySecurity} */
