@@ -1,5 +1,6 @@
 module.exports = function (RED) {
   "use strict";
+  /** @type {import('eufy-security-client')}  */
   const { EufySecurity, PropertyName } = require("eufy-security-client");
   const eventsDefinition = require("./events");
   const { transformProperties } = require("./utils");
@@ -8,29 +9,15 @@ module.exports = function (RED) {
     EUFY_SECURITY_COMMANDS,
   } = require("./constants");
 
-
 /**
- * @typedef {Object} StationIPAddresses
- * @property {string} [index: string]
-
- * @typedef {Object} EufySecurityConfig
- * @property {string} username 
- * @property {string} password 
- * @property {string?} country 
- * @property {string?} language 
- * @property {string?} trustedDeviceName 
- * @property {string?} persistentDir 
- * @property {number} p2pConnectionSetup 
- * @property {number} pollingIntervalMinutes 
- * @property {number} eventDurationSeconds 
- * @property {boolean?} acceptInvitations 
- * @property {StationIPAddresses?} stationIPAddresses 
+ * @typedef {import('eufy-security-client').EufySecurity} EufySecurity
+ * @typedef {import('eufy-security-client').PropertyName} PropertyName
+ * @typedef {import('eufy-security-client').EufySecurityConfig} EufySecurityConfig
  */
 
   class EufyConfigNode {
     constructor(config) {
       RED.nodes.createNode(this, config);
-
       /** @type {EufySecurityConfig} */
       this.connectionConfig = {
         username: this.credentials?.username,
@@ -53,7 +40,6 @@ module.exports = function (RED) {
       }
     }
 
-    /** @returns {EufySecurityConfig} */
     getConfig() {
       return this.connectionConfig;
     }
