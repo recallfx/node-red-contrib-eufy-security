@@ -182,7 +182,7 @@ module.exports = function (RED) {
               );
               break;
             case EUFY_SECURITY_COMMANDS.REFRESH_DATA:
-            case EUFY_SECURITY_COMMANDS.REFRESH_CLOUD__DATA:
+            case EUFY_SECURITY_COMMANDS.REFRESH_CLOUD_DATA:
               this.sendCommandResult(command, await this.driver.refreshCloudData());
               break;
             case EUFY_SECURITY_COMMANDS.IS_STATION_CONNECTED:
