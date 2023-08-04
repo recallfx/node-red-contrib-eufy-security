@@ -32,9 +32,11 @@ const mockSecurityClient = {
 jest.mock("eufy-security-client", () => {
   return {
     PropertyName: {},
-    EufySecurity: jest.fn().mockImplementation(() => {
-      return mockSecurityClient;
-    }),
+    EufySecurity: {
+      initialize: jest.fn().mockImplementation(() => {
+        return mockSecurityClient;
+      }),
+    }
   };
 });
 
