@@ -116,7 +116,7 @@ describe("01-eufy-security.js", () => {
         const n1 = helper.getNode("n1");
 
         expect(n1).toMatchObject({
-          initialised: false,
+          initialized: false,
         });
 
         expect(n1.error.calledWithExactly("Eufy config missing")).toBeTruthy();
@@ -151,7 +151,7 @@ describe("01-eufy-security.js", () => {
           topic: node.topic,
           events: node.events,
           eufyConfigNodeId: "c1",
-          initialised: true,
+          initialized: true,
         });
 
         expect(mockSecurityClient.on).toHaveBeenCalledWith(
@@ -171,7 +171,7 @@ describe("01-eufy-security.js", () => {
           n1.status.calledWithExactly({
             fill: "grey",
             shape: "dot",
-            text: "Initialised",
+            text: "Initialized",
           })
         ).toBeTruthy();
 

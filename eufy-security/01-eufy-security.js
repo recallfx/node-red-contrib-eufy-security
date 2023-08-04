@@ -60,7 +60,7 @@ module.exports = function (RED) {
       this.topic = config.topic;
       this.events = config.events || [];
       this.eufyConfigNodeId = config.eufyConfig;
-      this.initialised = false;
+      this.initialized = false;
       this.status({});
 
       const eufyConfigNode = RED.nodes.getNode(this.eufyConfigNodeId);
@@ -69,16 +69,16 @@ module.exports = function (RED) {
         this.on("input", this.onNodeInput.bind(this));
         this.on("close", this.onNodeClose.bind(this));
 
-        this.initialise();
+        this.initialize();
       } else {
         this.status({ fill: "red", shape: "dot", text: "Not configured" });
         this.error("Eufy config missing");
       }
     }
 
-    async initialise() {
-      this.initialised = false;
-      this.status({ fill: "grey", shape: "dot", text: "Initialising" });
+    async initialize() {
+      this.initialized = false;
+      this.status({ fill: "grey", shape: "dot", text: "Initializing" });
 
       const eufyConfigNode = RED.nodes.getNode(this.eufyConfigNodeId);
       /** @type {EufySecurityConfig} */
@@ -105,22 +105,22 @@ module.exports = function (RED) {
           });
         });
 
-      this.status({ fill: "grey", shape: "dot", text: "Initialised" });
+      this.status({ fill: "grey", shape: "dot", text: "Initialized" });
 
-      this.initialised = true;
+      this.initialized = true;
 
       await this.connect();
     }
 
     async connect() {
-      if (this.initialised && !this.driver.isConnected()) {
+      if (this.initialized && !this.driver.isConnected()) {
         this.status({ fill: "yellow", shape: "dot", text: "Connecting" });
         await this.driver.connect();
       }
     }
 
     disconnect() {
-      if (this.initialised) {
+      if (this.initialized) {
         this.driver.close();
       }
     }
@@ -139,7 +139,7 @@ module.exports = function (RED) {
         channel,
       } = payload;
 
-      if (this.initialised) {
+      if (this.initialized) {
         try {
           switch (command) {
             case EUFY_SECURITY_COMMANDS.SET_STATION_PROPERTY:
