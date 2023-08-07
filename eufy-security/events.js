@@ -1,5 +1,6 @@
 const { getArgumentsTransformer } = require('./utils');
 
+// use EufySecurityEvents to populate this events array
 const events = [
   {
     event: 'connect',
@@ -48,6 +49,17 @@ const events = [
   {
     event: 'tfa request',
     args: [],
+  },
+  {
+    event: 'captcha request',
+    args: [
+      'id',
+      'captcha',
+    ],
+  },
+  {
+    event: 'connection error',
+    args: ['error'],
   },
   {
     event: 'cloud livestream start',

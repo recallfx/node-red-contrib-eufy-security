@@ -9,11 +9,12 @@ module.exports = function (RED) {
     EUFY_SECURITY_COMMANDS,
   } = require("./constants");
 
-/**
- * @typedef {import('eufy-security-client').EufySecurity} EufySecurity
- * @typedef {import('eufy-security-client').PropertyName} PropertyName
- * @typedef {import('eufy-security-client').EufySecurityConfig} EufySecurityConfig
- */
+  /**
+   * @typedef {import('eufy-security-client').EufySecurity} EufySecurity
+   * @typedef {import('eufy-security-client').PropertyName} PropertyName
+   * @typedef {import('eufy-security-client').EufySecurityConfig} EufySecurityConfig
+   * @typedef {import('eufy-security-client').LoginOptions} LoginOptions
+   */
 
   class EufyConfigNode {
     constructor(config) {
@@ -25,10 +26,12 @@ module.exports = function (RED) {
         country: config.country,
         language: config.language,
         trustedDeviceName: config.trustedDeviceName,
+        persistentDir: undefined,
         p2pConnectionSetup: Number(config.p2pConnectionSetup),
         pollingIntervalMinutes: Number(config.pollingIntervalMinutes),
         eventDurationSeconds: Number(config.eventDurationSeconds),
         acceptInvitations: config.acceptInvitations === "true",
+        stationIPAddresses: undefined,
       };
 
       const missingCredentials = ["username", "password"].filter(
@@ -91,6 +94,26 @@ module.exports = function (RED) {
         this.status({ fill: "green", shape: "dot", text: "Connected" });
       });
 
+      this.driver.on("connection error", (error) => {
+        this.status({ fill: "red", shape: "dot", text: "Connection error" });
+      });
+
+      this.driver.on("tfa request", () => {
+        if (!this.events.includes("tfa request")) {
+          RED.log.warn("TFA request received, enter TFA code");
+        }
+
+        this.status({ fill: "yellow", shape: "dot", text: "Awaiting TFA" });
+      });
+
+      this.driver.on("captcha request", (id, captcha) => {
+        if (!this.events.includes("captcha request")) {
+          RED.log.warn(`Captcha request received, enter captcha (id: ${id}, captcha: ${captcha})`);
+        }
+
+        this.status({ fill: "yellow", shape: "dot", text: "Awaiting captcha" });
+      });
+
       this.driver.on("close", () => {
         this.status({ fill: "red", shape: "dot", text: "Disconnected" });
       });
@@ -127,13 +150,14 @@ module.exports = function (RED) {
 
     async onNodeInput(msg) {
       const { payload } = msg;
+      /** @type {LoginOptions} loginOptions */
+      const loginOptions = payload.loginOptions;
       const {
         command,
         stationSN,
         deviceSN,
         name,
         value,
-        verifyCode,
         seconds,
         p2pConnectionType,
         channel,
@@ -163,7 +187,7 @@ module.exports = function (RED) {
             case EUFY_SECURITY_COMMANDS.CONNECT:
               this.sendCommandResult(
                 command,
-                await this.driver.connect(verifyCode)
+                await this.driver.connect(loginOptions)
               );
               break;
             case EUFY_SECURITY_COMMANDS.CLOSE:
