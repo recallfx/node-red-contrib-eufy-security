@@ -250,7 +250,7 @@
       "id": "4f9c4dcf81fde8a1",
       "type": "inject",
       "z": "049542b9958f9847",
-      "name": "refresh data",
+      "name": "refresh cloud data",
       "props": [
           {
               "p": "payload"
@@ -265,7 +265,7 @@
       "once": false,
       "onceDelay": 0.1,
       "topic": "",
-      "payload": "{\"command\":\"refresh data\"}",
+      "payload": "{\"command\":\"refresh cloud data\"}",
       "payloadType": "json",
       "x": 130,
       "y": 300,

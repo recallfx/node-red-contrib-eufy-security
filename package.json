@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-eufy-security",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Eufy security node for Node RED",
   "author": "Marius Bieliauskas",
   "license": "MIT",
@@ -22,11 +22,11 @@
     }
   },
   "dependencies": {
-    "eufy-security-client": "^1.1.0"
+    "eufy-security-client": "^2.7.0"
   },
   "devDependencies": {
-    "jest": "^27.0.6",
-    "node-red": "^2.0.5",
-    "node-red-node-test-helper": "^0.2.7"
+    "jest": "^29.6.2",
+    "node-red": "^3.0.2",
+    "node-red-node-test-helper": "^0.3.2"
   }
 }

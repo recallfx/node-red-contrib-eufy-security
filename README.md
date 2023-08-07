@@ -25,7 +25,7 @@ Tested commands:
 * get version
 * is push connected
 * is connected
-* refresh data
+* refresh cloud data
 * get stations
 * get devices
 * get camera max livestream duration
@@ -42,7 +42,7 @@ Not tested commands:
 
 ## Description
 
-[Node-RED][1] contribution package for [Eufy security devices][2], based on [eufy-security-client][3] 
+[Node-RED][1] contribution package for [Eufy security devices][2], based on [eufy-security-client][3]
 
 Node RED plugin wrapper around [eufy-security-client][2] library to access and control  by connecting to the Eufy cloud servers and local/remote stations over P2P.
 
@@ -141,7 +141,7 @@ Also you can send commands to this node in this form:
 * `close`
 * `set camera max livestream duration` (seconds)
 * `get camera max livestream duration`
-* `refresh data`
+* `refresh cloud data`
 * `is station connected` (stationSN)
 * `connect to station` (stationSN, p2pConnectionType)
 * `get station` (stationSN)

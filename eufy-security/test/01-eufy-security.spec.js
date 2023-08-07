@@ -23,7 +23,7 @@ const mockSecurityClient = {
 
   // async
   connect: jest.fn().mockResolvedValue(true),
-  refreshData: jest.fn().mockResolvedValue(),
+  refreshCloudData: jest.fn().mockResolvedValue(),
   connectToStation: jest.fn().mockResolvedValue(),
   setStationProperty: jest.fn().mockResolvedValue(),
   setDeviceProperty: jest.fn().mockResolvedValue(),
@@ -32,9 +32,11 @@ const mockSecurityClient = {
 jest.mock("eufy-security-client", () => {
   return {
     PropertyName: {},
-    EufySecurity: jest.fn().mockImplementation(() => {
-      return mockSecurityClient;
-    }),
+    EufySecurity: {
+      initialize: jest.fn().mockImplementation(() => {
+        return mockSecurityClient;
+      }),
+    }
   };
 });
 
@@ -116,7 +118,7 @@ describe("01-eufy-security.js", () => {
         const n1 = helper.getNode("n1");
 
         expect(n1).toMatchObject({
-          initialised: false,
+          initialized: false,
         });
 
         expect(n1.error.calledWithExactly("Eufy config missing")).toBeTruthy();
@@ -151,7 +153,7 @@ describe("01-eufy-security.js", () => {
           topic: node.topic,
           events: node.events,
           eufyConfigNodeId: "c1",
-          initialised: true,
+          initialized: true,
         });
 
         expect(mockSecurityClient.on).toHaveBeenCalledWith(
@@ -171,7 +173,7 @@ describe("01-eufy-security.js", () => {
           n1.status.calledWithExactly({
             fill: "grey",
             shape: "dot",
-            text: "Initialised",
+            text: "Initialized",
           })
         ).toBeTruthy();
 
