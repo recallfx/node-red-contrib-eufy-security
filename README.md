@@ -4,6 +4,7 @@ Note: not all events and command have been tested, check list below.
 
 Tested events:
 * connect
+* captcha request
 * close
 * push connect
 * push close
@@ -88,6 +89,8 @@ Suported events:
 * device connect
 * device close
 * tfa request
+* captcha request
+* connection error
 * cloud livestream start
 * cloud livestream stop
 * station livestream start
@@ -137,7 +140,7 @@ Also you can send commands to this node in this form:
 * `get version`
 * `is push connected`
 * `is connected`
-* `connect` (?verifyCode)
+* `connect` (?loginOptions)
 * `close`
 * `set camera max livestream duration` (seconds)
 * `get camera max livestream duration`

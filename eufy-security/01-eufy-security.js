@@ -13,6 +13,7 @@ module.exports = function (RED) {
  * @typedef {import('eufy-security-client').EufySecurity} EufySecurity
  * @typedef {import('eufy-security-client').PropertyName} PropertyName
  * @typedef {import('eufy-security-client').EufySecurityConfig} EufySecurityConfig
+   * @typedef {import('eufy-security-client').LoginOptions} LoginOptions
  */
 
   class EufyConfigNode {
@@ -127,13 +128,14 @@ module.exports = function (RED) {
 
     async onNodeInput(msg) {
       const { payload } = msg;
+      /** @type {LoginOptions} loginOptions */
+      const loginOptions = payload.loginOptions;
       const {
         command,
         stationSN,
         deviceSN,
         name,
         value,
-        verifyCode,
         seconds,
         p2pConnectionType,
         channel,
@@ -163,7 +165,7 @@ module.exports = function (RED) {
             case EUFY_SECURITY_COMMANDS.CONNECT:
               this.sendCommandResult(
                 command,
-                await this.driver.connect(verifyCode)
+                await this.driver.connect(loginOptions)
               );
               break;
             case EUFY_SECURITY_COMMANDS.CLOSE:
