@@ -1,6 +1,14 @@
 # node-red-contrib-eufy-security
 
-Note: not all events and command have been tested, check list below.
+## Description
+
+[Node-RED][1] contribution package for [Eufy security devices][2], based on [eufy-security-client][3]
+
+Node RED plugin wrapper around [eufy-security-client][2] library to access and control by connecting to the Eufy cloud servers and local/remote stations over P2P.
+
+### Note
+
+Not all events and commands have been added/tested, check list below. Full list can be found [here][4].
 
 Tested events:
 * connect
@@ -40,12 +48,6 @@ Tested commands with props:
 
 Not tested commands:
 * get station device (stationSN, channel)
-
-## Description
-
-[Node-RED][1] contribution package for [Eufy security devices][2], based on [eufy-security-client][3]
-
-Node RED plugin wrapper around [eufy-security-client][2] library to access and control  by connecting to the Eufy cloud servers and local/remote stations over P2P.
 
 ## Install
 
@@ -156,3 +158,4 @@ Also you can send commands to this node in this form:
 [1]:https://nodered.org
 [2]:https://us.eufylife.com/collections/security
 [3]:https://github.com/bropat/eufy-security-client
+[4]:https://github.com/bropat/eufy-security-client/blob/8f2f8b352fd4bcd0ffd5b1f754c85a1df69c376c/src/interfaces.ts#L45C31-L45C31
