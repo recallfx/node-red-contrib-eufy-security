@@ -16,10 +16,14 @@
   "scripts": {
     "test": "jest"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "node-red": {
     "nodes": {
       "eufy-security": "eufy-security/01-eufy-security.js"
-    }
+    },
+    "version": ">=3.0.0"
   },
   "dependencies": {
     "eufy-security-client": "^2.7.0"
