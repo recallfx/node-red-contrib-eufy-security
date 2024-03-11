@@ -154,6 +154,7 @@ Also you can send commands to this node in this form:
 * `get station device` (stationSN, channel)
 * `get device` (deviceSN)
 * `get devices`
+* `get image` (deviceSN, value) //value is a pic_url
 
 [1]:https://nodered.org
 [2]:https://us.eufylife.com/collections/security
