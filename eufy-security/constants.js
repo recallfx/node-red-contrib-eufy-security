@@ -19,6 +19,7 @@ const EUFY_SECURITY_COMMANDS = {
   GET_STATION_DEVICE: 'get station device',
   GET_DEVICE: 'get device',
   GET_DEVICES: 'get devices',
+  GET_IMAGE: 'get image',
 };
 
 module.exports = {

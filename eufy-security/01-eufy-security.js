@@ -242,6 +242,9 @@ module.exports = function (RED) {
             case EUFY_SECURITY_COMMANDS.GET_DEVICES:
               this.sendCommandResult(command, await this.driver.getDevices());
               break;
+            case EUFY_SECURITY_COMMANDS.GET_IMAGE:
+              this.sendCommandResult(command,(await this.driver.api.getImage(deviceSN,value)).toString('base64'));
+              break;
             default:
               throw new Error("Unknown command");
           }
