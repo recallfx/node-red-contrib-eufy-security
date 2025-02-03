@@ -1,3 +1,7 @@
+# 🚨 Unmaintained
+
+I no longer have these cameras and __cannot__ support this package. ⚠️
+
 # node-red-contrib-eufy-security
 
 ## Description
